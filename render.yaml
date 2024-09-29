@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: invoice-app
+    env: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'npm start'
+    autoDeploy: true
+    repo: https://github.com/solankisolutions/invoice-app
+    branch: main
+    envVars:
+      - key: postgresql://invoice_db_vico_user:nSARPSsqsn0gFRPcBdODv1I5J6Stc305@dpg-crslhiggph6c738v636g-a/invoice_db_vico
+        fromDatabase:
+          name: invoice-db
+          property: connectionString
+
+databases:
+  - name: invoice-db
+    plan: free
+    postgresVersion: 14
