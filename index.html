@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Invoice</title>
+</head>
+<body>
+    <h1>Create Invoice</h1>
+    <form id="invoiceForm">
+        <label for="client">Client ID:</label>
+        <input type="text" id="client" name="client_id" required>
+        
+        <label for="items">Items (JSON format):</label>
+        <input type="text" id="items" name="items" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('invoiceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const client_id = document.getElementById('client').value;
+            const items = JSON.parse(document.getElementById('items').value);
+            
+            fetch('/invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ client_id, items })
+            }).then(response => response.json())
+              .then(data => alert(`Invoice created with ID: ${data.invoiceId}`));
+        });
+    </script>
+</body>
+</html>
